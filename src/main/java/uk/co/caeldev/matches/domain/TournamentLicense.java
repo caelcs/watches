@@ -16,11 +16,11 @@ public class TournamentLicense extends BaseLicense<Tournament> {
 
     @Override
     public List<Match> getMatches() {
-        return null;
+        return tournament.getMatches();
     }
 
     @Override
     public void put(Tournament source) {
-
+        tournament = source;
     }
 }
