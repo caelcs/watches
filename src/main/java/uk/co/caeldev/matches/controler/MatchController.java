@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.Objects.isNull;
+import static uk.co.caeldev.matches.controler.ConverterFunctions.toMatchesResource;
 
 @RestController
 @AllArgsConstructor
@@ -30,6 +31,8 @@ public class MatchController {
         }
 
         return ResponseEntity
-                .ok(MatchesResource.builder().matches(MatchesResource.from(matches, isNull(summaryType)? null: SummaryType.valueOf(summaryType))).build());
+                .ok(MatchesResource.builder()
+                        .matches(toMatchesResource.apply(matches, isNull(summaryType) ? null : SummaryType.valueOf(summaryType)))
+                        .build());
     }
 }

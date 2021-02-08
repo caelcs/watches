@@ -8,6 +8,9 @@ import java.util.UUID;
 public interface LicenseRepository {
 
     List<License<?>> findByUserId(UUID userId);
+
     void addLicense(License<?> license);
+
     void addAllLicenses(List<License<?>> licenses);
+
 }
