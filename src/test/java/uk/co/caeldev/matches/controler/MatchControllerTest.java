@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -52,7 +53,6 @@ public class MatchControllerTest {
     public void testGetNotFoundWhenThereAreNoMatches() throws Exception {
         //Given
         UUID userId = UUID.randomUUID();
-        UUID matchId = UUID.randomUUID();
 
         //And
         when(matchService.getMatchesByUserId(userId)).thenReturn(Collections.emptyList());
@@ -60,5 +60,68 @@ public class MatchControllerTest {
         //When
         mockMvc.perform(get("/users/{userId}/matches", userId.toString()))
                 .andExpect(status().is(404));
+    }
+
+    @Test
+    public void testGetSummaryWhenSummaryTypeIsAvB() throws Exception {
+        //Given
+        UUID userId = UUID.randomUUID();
+        UUID matchId = UUID.randomUUID();
+
+        //And
+        Match expectedMatch = Match.builder()
+                .id(matchId)
+                .name("test")
+                .playerA("Raul")
+                .playerB("German")
+                .startDate(LocalDateTime.now()).build();
+        when(matchService.getMatchesByUserId(userId)).thenReturn(List.of(expectedMatch));
+
+        //When
+        mockMvc.perform(get("/users/{userId}/matches", userId.toString()).queryParam("summaryType", "AvB"))
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.matches[0].summary").value("Raul vs German"));
+    }
+
+    @Test
+    public void testGetSummaryWhenSummaryTypeIsAvBTimeAndStartDateIsInFuture() throws Exception {
+        //Given
+        UUID userId = UUID.randomUUID();
+        UUID matchId = UUID.randomUUID();
+
+        //And
+        Match expectedMatch = Match.builder()
+                .id(matchId)
+                .name("test")
+                .playerA("Raul")
+                .playerB("German")
+                .startDate(LocalDateTime.now().plusMinutes(15)).build();
+        when(matchService.getMatchesByUserId(userId)).thenReturn(List.of(expectedMatch));
+
+        //When
+        mockMvc.perform(get("/users/{userId}/matches", userId.toString()).queryParam("summaryType", "AvBTime"))
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.matches[0].summary").value(containsString(", starts in")));
+    }
+
+    @Test
+    public void testGetSummaryWhenSummaryTypeIsAvBTimeAndStartDateIsInPast() throws Exception {
+        //Given
+        UUID userId = UUID.randomUUID();
+        UUID matchId = UUID.randomUUID();
+
+        //And
+        Match expectedMatch = Match.builder()
+                .id(matchId)
+                .name("test")
+                .playerA("Raul")
+                .playerB("German")
+                .startDate(LocalDateTime.now().minusMinutes(15)).build();
+        when(matchService.getMatchesByUserId(userId)).thenReturn(List.of(expectedMatch));
+
+        //When
+        mockMvc.perform(get("/users/{userId}/matches", userId.toString()).queryParam("summaryType", "AvBTime"))
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.matches[0].summary").value(containsString(", started")));
     }
 }

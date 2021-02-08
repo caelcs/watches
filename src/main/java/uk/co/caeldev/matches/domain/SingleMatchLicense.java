@@ -1,11 +1,13 @@
 package uk.co.caeldev.matches.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class SingleMatchLicense extends BaseLicense<Match> {
     List<Match> matches;
 
