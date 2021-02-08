@@ -1,5 +1,6 @@
 package uk.co.caeldev.matches.controler;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,6 +30,7 @@ public class MatchControllerTest {
     private MatchService matchService;
 
     @Test
+    @DisplayName("should get all the matches where there is a single match license")
     public void testGetAllMatchesWhenTournamentLicense() throws Exception {
         //Given
         UUID userId = UUID.randomUUID();
@@ -50,6 +52,7 @@ public class MatchControllerTest {
     }
 
     @Test
+    @DisplayName("should fail and return 404 when there is no matches")
     public void testGetNotFoundWhenThereAreNoMatches() throws Exception {
         //Given
         UUID userId = UUID.randomUUID();
@@ -63,6 +66,7 @@ public class MatchControllerTest {
     }
 
     @Test
+    @DisplayName("should build the summary when the summaryType is AvB")
     public void testGetSummaryWhenSummaryTypeIsAvB() throws Exception {
         //Given
         UUID userId = UUID.randomUUID();
@@ -84,6 +88,7 @@ public class MatchControllerTest {
     }
 
     @Test
+    @DisplayName("should build the summary when the summaryType is AvBTime and the startDate is in the future")
     public void testGetSummaryWhenSummaryTypeIsAvBTimeAndStartDateIsInFuture() throws Exception {
         //Given
         UUID userId = UUID.randomUUID();
@@ -105,6 +110,7 @@ public class MatchControllerTest {
     }
 
     @Test
+    @DisplayName("should build the summary when the summaryType is AvBTime and the startDate is in the past")
     public void testGetSummaryWhenSummaryTypeIsAvBTimeAndStartDateIsInPast() throws Exception {
         //Given
         UUID userId = UUID.randomUUID();

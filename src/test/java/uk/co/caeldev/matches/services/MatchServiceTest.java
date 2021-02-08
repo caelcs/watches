@@ -1,5 +1,6 @@
 package uk.co.caeldev.matches.services;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +25,7 @@ class MatchServiceTest {
     MatchService matchService;
 
     @Test
+    @DisplayName("Should get all the matches by UserId from Single Match License")
     public void testGetMatchesByUserIdFromSingleMatchLicense() {
         //Given
         UUID userId = UUID.randomUUID();
@@ -41,6 +43,7 @@ class MatchServiceTest {
     }
 
     @Test
+    @DisplayName("Should get all the matches by userId from Tournament License")
     public void testGetMatchesByUserIdFromTournamentLicense() {
         //Given
         UUID userId = UUID.randomUUID();

@@ -1,5 +1,6 @@
 package uk.co.caeldev.matches;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,7 @@ public class MatchesIntegrationTest {
     private LicenseRepository licenseRepository;
 
     @Test
+    @DisplayName("Should get the matches")
     public void happyPath() throws Exception {
         //Given
         UUID userId = randomUUID();
