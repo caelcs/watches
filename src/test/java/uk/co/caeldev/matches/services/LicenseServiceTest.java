@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.co.caeldev.matches.domain.*;
+import uk.co.caeldev.matches.repositories.LicenseInMemoryRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.when;
 class LicenseServiceTest {
 
     @Mock
-    LicenseRepository licenseRepository;
+    LicenseInMemoryRepository licenseInMemoryRepository;
 
     @InjectMocks
     LicenseService licenseService;
@@ -30,7 +31,7 @@ class LicenseServiceTest {
         //And
         SingleMatchLicense singleMatchLicense = new SingleMatchLicense();
         singleMatchLicense.put(Match.builder().id(UUID.randomUUID()).build());
-        when(licenseRepository.findByUserId(userId)).thenReturn(List.of(singleMatchLicense));
+        when(licenseInMemoryRepository.findByUserId(userId)).thenReturn(List.of(singleMatchLicense));
 
         //When
         List<Match> matchesByUserId = licenseService.getMatchesByUserId(userId);
@@ -47,7 +48,7 @@ class LicenseServiceTest {
         //And
         License tournamentLicense = new TournamentLicense();
         tournamentLicense.put(Tournament.builder().id(UUID.randomUUID()).matches(List.of(Match.builder().id(UUID.randomUUID()).build())).build());
-        when(licenseRepository.findByUserId(userId)).thenReturn(List.of(tournamentLicense));
+        when(licenseInMemoryRepository.findByUserId(userId)).thenReturn(List.of(tournamentLicense));
 
         //When
         List<Match> matchesByUserId = licenseService.getMatchesByUserId(userId);

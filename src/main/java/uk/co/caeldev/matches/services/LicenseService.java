@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import uk.co.caeldev.matches.domain.License;
 import uk.co.caeldev.matches.domain.Match;
+import uk.co.caeldev.matches.repositories.LicenseRepository;
 
 import java.util.List;
 import java.util.UUID;
