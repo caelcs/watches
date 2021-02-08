@@ -15,13 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class LicenseServiceTest {
+class MatchServiceTest {
 
     @Mock
     LicenseInMemoryRepository licenseInMemoryRepository;
 
     @InjectMocks
-    LicenseService licenseService;
+    MatchService matchService;
 
     @Test
     public void testGetMatchesByUserIdFromSingleMatchLicense() {
@@ -34,7 +34,7 @@ class LicenseServiceTest {
         when(licenseInMemoryRepository.findByUserId(userId)).thenReturn(List.of(singleMatchLicense));
 
         //When
-        List<Match> matchesByUserId = licenseService.getMatchesByUserId(userId);
+        List<Match> matchesByUserId = matchService.getMatchesByUserId(userId);
 
         //Then
         assertThat(matchesByUserId).hasSize(1);
@@ -51,7 +51,7 @@ class LicenseServiceTest {
         when(licenseInMemoryRepository.findByUserId(userId)).thenReturn(List.of(tournamentLicense));
 
         //When
-        List<Match> matchesByUserId = licenseService.getMatchesByUserId(userId);
+        List<Match> matchesByUserId = matchService.getMatchesByUserId(userId);
 
         //Then
         assertThat(matchesByUserId).hasSize(1);

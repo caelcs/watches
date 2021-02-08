@@ -6,7 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.co.caeldev.matches.domain.Match;
-import uk.co.caeldev.matches.services.LicenseService;
+import uk.co.caeldev.matches.services.MatchService;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -18,14 +18,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = LicensesController.class)
-public class LicensesControllerTest {
+@WebMvcTest(controllers = MatchController.class)
+public class MatchControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private LicenseService licenseService;
+    private MatchService matchService;
 
     @Test
     public void testGetAllMatchesWhenTournamentLicense() throws Exception {
@@ -40,7 +40,7 @@ public class LicensesControllerTest {
                 .playerA("Raul")
                 .playerB("German")
                 .startDate(LocalDateTime.now()).build();
-        when(licenseService.getMatchesByUserId(userId)).thenReturn(List.of(expectedMatch));
+        when(matchService.getMatchesByUserId(userId)).thenReturn(List.of(expectedMatch));
 
         //When
         mockMvc.perform(get("/users/{userId}/matches", userId.toString()))
@@ -55,7 +55,7 @@ public class LicensesControllerTest {
         UUID matchId = UUID.randomUUID();
 
         //And
-        when(licenseService.getMatchesByUserId(userId)).thenReturn(Collections.emptyList());
+        when(matchService.getMatchesByUserId(userId)).thenReturn(Collections.emptyList());
 
         //When
         mockMvc.perform(get("/users/{userId}/matches", userId.toString()))

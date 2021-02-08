@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class LicenseService {
+public class MatchService {
 
     LicenseRepository licenseRepository;
 
