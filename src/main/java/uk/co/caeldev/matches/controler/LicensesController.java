@@ -20,6 +20,11 @@ public class LicensesController {
     @GetMapping("/users/{userId}/matches")
     public ResponseEntity<MatchesResource> getMatches(@PathVariable("userId") UUID userId) {
         List<Match> matches = licenseService.getMatchesByUserId(userId);
+
+        if (matches.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity
                 .ok(MatchesResource.builder().matches(matches).build());
     }

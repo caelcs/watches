@@ -9,6 +9,7 @@ import uk.co.caeldev.matches.domain.Match;
 import uk.co.caeldev.matches.services.LicenseService;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,5 +46,19 @@ public class LicensesControllerTest {
         mockMvc.perform(get("/users/{userId}/matches", userId.toString()))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$.matches[0].id").value(matchId.toString()));
+    }
+
+    @Test
+    public void testGetNotFoundWhenThereAreNoMatches() throws Exception {
+        //Given
+        UUID userId = UUID.randomUUID();
+        UUID matchId = UUID.randomUUID();
+
+        //And
+        when(licenseService.getMatchesByUserId(userId)).thenReturn(Collections.emptyList());
+
+        //When
+        mockMvc.perform(get("/users/{userId}/matches", userId.toString()))
+                .andExpect(status().is(404));
     }
 }
